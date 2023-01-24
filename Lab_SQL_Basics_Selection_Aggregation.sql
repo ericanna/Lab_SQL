@@ -15,7 +15,7 @@ SELECT amount, account_id FROM loan ORDER BY account_id LIMIT 5;
 SELECT account_id FROM loan WHERE duration = 60 ORDER BY amount LIMIT 5;
 #Query 8: What are the unique values of k_symbol in the order table?
 # Note: There shouldn't be a table name order, since order is reserved from the ORDER BY clause. You have to use backticks to escape the order table name.
-SELECT DISTINCT(k_symbol) FROM `order`;
+SELECT DISTINCT(k_symbol) FROM `order` WHERE k_symbol <> " ";
 # Query 9: In the order table, what are the order_ids of the client with the account_id 34?
 SELECT order_id FROM `order`WHERE account_id = 34;
 # Query 10: In the order table, which account_ids were responsible for orders between order_id 29540 and order_id 29560 (inclusive)?
