@@ -1,18 +1,18 @@
 USE sakila;
 # Activity 1: Which actor has appeared in the most films?
-SELECT concat(first_name, " ", last_name) AS full_name, COUNT(film_id) FROM actor
+SELECT concat(first_name, " ", last_name) AS full_name, COUNT(film_id) AS movies_made FROM actor
 INNER JOIN film_actor
 USING (actor_id)
 GROUP BY actor_id
 ORDER BY COUNT(film_id) DESC LIMIT 1;
 # Activity 2: Most active customer (the customer that has rented the most number of films)
-SELECT concat(first_name, " ", last_name) AS full_name, COUNT(rental_id) FROM customer
+SELECT concat(first_name, " ", last_name) AS full_name, COUNT(rental_id) AS rents FROM customer
 INNER JOIN rental
 USING (customer_id)
 GROUP BY customer_id
 ORDER BY COUNT(rental_id) DESC LIMIT 1;
 # Activity 3: List number of films per category.
-SELECT  name, COUNT(title) FROM film
+SELECT  name, COUNT(title) AS number_of_titles FROM film
 INNER JOIN film_category
 USING (film_id)
 INNER JOIN category
@@ -36,7 +36,7 @@ WHERE payment_date LIKE '2005-08%'
 GROUP BY full_name;
 # Activity 7: List each film and the number of actors who are listed for that film.
 SELECT title, COUNT(actor_id) FROM film
-INNER JOIN film_actor
+LEFT JOIN film_actor # We wanna get even movies that have zero actors (documentaries, for eg.)
 USING (film_id)
 GROUP BY title
 ORDER BY COUNT(actor_id) DESC;
@@ -44,7 +44,7 @@ ORDER BY COUNT(actor_id) DESC;
 SELECT first_name, last_name, SUM(amount) FROM customer
 INNER JOIN payment
 USING (customer_id)
-GROUP BY last_name, first_name
+GROUP BY customer_id
 ORDER BY last_name;
 # Activity 9: Write sql statement to check if you can find any actor who never particiapted in any film.
 SELECT concat(first_name, " ", last_name) AS full_name FROM actor
