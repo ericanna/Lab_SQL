@@ -56,5 +56,6 @@ JOIN customer USING (customer_id)
 GROUP BY customer_id
 HAVING total_paid > (SELECT AVG(total_paid) FROM
 						(SELECT SUM(amount) AS total_paid FROM payment
-							GROUP BY customer_id));
+							GROUP BY customer_id)) AS sub
+ORDER BY first_name,last_name DESC;
                             
