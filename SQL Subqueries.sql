@@ -43,9 +43,18 @@ WHERE film_id in (SELECT film_id FROM inventory
 							WHERE customer_id = (SELECT customer_id FROM payment
 									GROUP BY customer_id ORDER BY SUM(amount) DESC LIMIT 1))));
 # Optional - Activity 8: Customers who spent more than the average payments(this refers to the average of all amount spent per each customer)..
-
+## Getting the amount paid by each customer:
+SELECT SUM(amount) AS total_paid, customer_id FROM payment
+GROUP BY customer_id;
+## Getting the average of total payments per customer:
+SELECT AVG(total_paid) FROM 
+						(SELECT SUM(amount) AS total_paid FROM payment
+							GROUP BY customer_id) AS sub;
+## Getting the customers that spent more than the average:
+SELECT first_name, last_name, SUM(amount) AS total_paid, customer_id FROM payment
+JOIN customer USING (customer_id)
+GROUP BY customer_id
+HAVING total_paid > (SELECT AVG(total_paid) FROM
+						(SELECT SUM(amount) AS total_paid FROM payment
+							GROUP BY customer_id));
                             
-                            
-
-
-
